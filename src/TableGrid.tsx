@@ -21,8 +21,7 @@ const TableGrid: React.FC<DataProps> = ({ data }) => {
     const [gridApi, setGridApi] = useState<any>();
     const [searchText, setSearchText] = useState<string>('');
     const [rowCount, setRowCount] = useState<number>(0);
-
-    
+    const [searchTime, setSearchTime] = useState<number>(0);
 
     const debouncedSearchText = useDebounce(searchText, 500);
 
@@ -36,7 +35,10 @@ const TableGrid: React.FC<DataProps> = ({ data }) => {
     };
 
     const applyFilter = () => {
+        const startTime = performance.now();
         gridApi?.setQuickFilter(debouncedSearchText);
+        const endTime = performance.now();
+        setSearchTime(endTime - startTime);
         updateRowCount();
     };
 
@@ -80,6 +82,7 @@ const TableGrid: React.FC<DataProps> = ({ data }) => {
                 <button onClick={applyFilter}>Search</button>
             </div>
             <p>Total Rows: 1000 &nbsp; <span>Current Rows: {rowCount}</span> </p>
+            <p>Search Query Time: {searchTime.toFixed(2)} milliseconds</p>
         </div>
     );
 }
