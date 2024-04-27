@@ -1,10 +1,8 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
 import { AgGridReact } from 'ag-grid-react';
-import { ColDef } from 'ag-grid-community';
+import { ColDef, GridReadyEvent } from 'ag-grid-community';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-
 import useDebounce from "./hook/useDebounce";
 
 interface DataItem {
@@ -21,14 +19,16 @@ interface DataProps {
 const TableGrid: React.FC<DataProps> = ({ data }) => {
 
     const [gridApi, setGridApi] = useState<any>();
-    const [gridColumnApi, setGridColumnApi] = useState<any>();
     const [searchText, setSearchText] = useState<string>('');
+    const [rowCount, setRowCount] = useState<number>(0);
+
+    
 
     const debouncedSearchText = useDebounce(searchText, 500);
 
-    const onGridReady = (params: any) => {
+    const onGridReady = (params: GridReadyEvent) => {
         setGridApi(params.api);
-        setGridColumnApi(params.columnApi);
+        updateRowCount();
     }
 
     const onSearchTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,8 +36,19 @@ const TableGrid: React.FC<DataProps> = ({ data }) => {
     };
 
     const applyFilter = () => {
-        gridApi?.setQuickFilter(searchText);
+        gridApi?.setQuickFilter(debouncedSearchText);
+        updateRowCount();
     };
+
+    const updateRowCount = () => {
+        if (gridApi) {
+            setRowCount(gridApi.getDisplayedRowCount());
+        }
+    };
+
+    useEffect(() => {
+        updateRowCount();
+    }, [data, debouncedSearchText]);
 
     const columnDefs: ColDef<DataItem>[] = [
         { headerName: 'ID', field: 'id', filter: true },
@@ -46,8 +57,19 @@ const TableGrid: React.FC<DataProps> = ({ data }) => {
         { headerName: 'Ram', field: 'ram', filter: true },
     ];
 
+    
+
+    console.log("@@@Rowcount", rowCount);
+
     return (
-        <div>
+        <div style={{ marginTop: '10px' }}>
+            <div className="ag-theme-alpine" style={{ height: '500px', width: '100%' }}>
+                <AgGridReact
+                    rowData={data}
+                    columnDefs={columnDefs}
+                    onGridReady={onGridReady}
+                />
+            </div>
             <div className="search-container">
                 <input
                     type="text"
@@ -57,13 +79,7 @@ const TableGrid: React.FC<DataProps> = ({ data }) => {
                 />
                 <button onClick={applyFilter}>Search</button>
             </div>
-            <div className="ag-theme-alpine" style={{ height: '500px', width: '100%' }}>
-            <AgGridReact
-                rowData={data}
-                columnDefs={columnDefs}
-                onGridReady={onGridReady}
-            />
-            </div>
+            <p>Total Rows: 1000 &nbsp; <span>Current Rows: {rowCount}</span> </p>
         </div>
     );
 }
