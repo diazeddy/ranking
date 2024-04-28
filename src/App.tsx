@@ -1,33 +1,46 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+
+import CsvFileInput from './CsvFileInput'
+import TableGrid from './TableGrid';
+import LogicalCalculator from './LogicalCalculator';
+
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+export interface DataItem {
+  id: number;
+  battery_power: number;
+  px_height: number;
+  ram: number;
+}
 
+export interface DataProps {
+  data: DataItem[];
+}
+
+function App() {
+  const [data, setData] = useState<DataItem[]>([]);
+  const handleFileLoad = (csvData: any) => {
+    setData(csvData);
+  };
+
+  console.log("@@@", data);
+  // for (let i = 0; i < 10; i++) {
+  //   console.log("@@@@Samll Data", data[i].battery_power);
+  // }
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <h1>CSV Import in React.js</h1>
+      <CsvFileInput onFileLoad={handleFileLoad} />
+      {/* <ul>
+        {data.map((row, index) => (
+          <li key={index}>{JSON.stringify(row)}</li>
+        ))}
+      </ul> */}
+      <TableGrid data={data} />
+      {
+        (data.length !== 0) && 
+        <LogicalCalculator data={data} />
+      }
     </>
   )
 }
