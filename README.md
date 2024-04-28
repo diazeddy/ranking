@@ -17,19 +17,25 @@ Build a ranking system with a table, a diagram, and a logical operation calculat
   - Circle size should be dependent on number of associated records.
 
 ## Screenshots
+- Entire App
+ ![alt text](image.png)
 
+- Data Table Display with search functionalities
+ - ![alt text](image-1.png)
+
+- Logical Operator Calculator
+ - ![alt text](image-2.png)
+
+- Venn Chart Diagram
+ - ![alt text](image-3.png)
 
 ## Frontend
 ### Tech Stacks
 - React
 - TypeScript
 - Vite
-
-### Features
-- 
-
-### Challenges & Solutions
-- 
+- chart.js
+- chartjs-chart-venn
 
 ## Installation
 
