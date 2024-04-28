@@ -4,17 +4,7 @@ import { ColDef, GridReadyEvent } from 'ag-grid-community';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import useDebounce from "./hook/useDebounce";
-
-interface DataItem {
-    id: number;
-    battery_power: number;
-    px_height: number;
-    ram: number;
-}
-
-interface DataProps {
-    data: DataItem[];
-}
+import { DataItem, DataProps } from "./App";
 
 const TableGrid: React.FC<DataProps> = ({ data }) => {
 
@@ -79,10 +69,15 @@ const TableGrid: React.FC<DataProps> = ({ data }) => {
                     value={searchText}
                     onChange={onSearchTextChange}
                 />
-                <button onClick={applyFilter}>Search</button>
+                <button onClick={applyFilter} style={{ marginTop: '10px' }}>Search</button>
             </div>
-            <p>Total Rows: 1000 &nbsp; <span>Current Rows: {rowCount}</span> </p>
-            <p>Search Query Time: {searchTime.toFixed(2)} milliseconds</p>
+            {
+                data.length !== 0 &&
+                <>
+                    <p>Total Rows: 1000 &nbsp; <span>Current Rows: {rowCount}</span> </p>
+                    <p>Search Query Time: {searchTime.toFixed(2)} milliseconds</p>
+                </>
+            }
         </div>
     );
 }

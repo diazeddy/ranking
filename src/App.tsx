@@ -2,14 +2,19 @@ import { useState } from 'react'
 
 import CsvFileInput from './CsvFileInput'
 import TableGrid from './TableGrid';
+import LogicalCalculator from './LogicalCalculator';
 
 import './App.css'
 
-interface DataItem {
+export interface DataItem {
   id: number;
   battery_power: number;
   px_height: number;
   ram: number;
+}
+
+export interface DataProps {
+  data: DataItem[];
 }
 
 function App() {
@@ -19,6 +24,9 @@ function App() {
   };
 
   console.log("@@@", data);
+  // for (let i = 0; i < 10; i++) {
+  //   console.log("@@@@Samll Data", data[i].battery_power);
+  // }
   return (
     <>
       <h1>CSV Import in React.js</h1>
@@ -29,6 +37,10 @@ function App() {
         ))}
       </ul> */}
       <TableGrid data={data} />
+      {
+        (data.length !== 0) && 
+        <LogicalCalculator data={data} />
+      }
     </>
   )
 }
