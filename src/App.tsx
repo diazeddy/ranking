@@ -3,6 +3,7 @@ import { useState } from 'react'
 import CsvFileInput from './CsvFileInput'
 import TableGrid from './TableGrid';
 import LogicalCalculator from './LogicalCalculator';
+import VennChart from './VennChart';
 
 import './App.css'
 
@@ -41,6 +42,7 @@ function App() {
         (data.length !== 0) && 
         <LogicalCalculator data={data} />
       }
+      <VennChart data={data} />
     </>
   )
 }

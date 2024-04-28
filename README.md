@@ -1,7 +1,7 @@
 # Project: Ranking System (UI)
 
 ## Description
-Build a PostgreSQL DB explorer like pgAdmin
+Build a ranking system with a table, a diagram, and a logical operation calculator.
 
 ## Features
 - Download a dataset that contains more than 3000 records with more than 3 columns in number format.
