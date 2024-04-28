@@ -106,7 +106,7 @@ const LogicalCalculator:React.FC<DataProps> = ({ data }) => {
 
     const calculateAvg = (array: number[]) => {
         let length = array.length;
-        return calculateSum(array) / length;
+        return Number((calculateSum(array) / length).toFixed(2));
     }
 
     const ranking = (arr: number[], compFn: (a: number, b: number) => boolean) => arr.map(a => arr.filter(b => compFn(a, b)).length + 1);
