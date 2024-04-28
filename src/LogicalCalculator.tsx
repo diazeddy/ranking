@@ -139,14 +139,10 @@ const LogicalCalculator:React.FC<DataProps> = ({ data }) => {
         }
     };
 
-
-
-    console.log("@@@@XX", startColumnType);
-
     return (
         <div>
             <label>
-                <h4>Select Operation</h4>
+                <h2>Select Operation</h2>
                 <select value={operation} onChange={handleOperationChange}>
                     <option value="MIN">MIN</option>
                     <option value="MAX">MAX</option>
@@ -156,7 +152,7 @@ const LogicalCalculator:React.FC<DataProps> = ({ data }) => {
                 </select>
             </label>
             <label>
-                <h4>Range Indicator</h4>
+                <h2>Range Indicator</h2>
                 <select value={startColumnType} onChange={handleStartColumnTypeChange}>
                     <option value="battery_power">Battery Power</option>
                     <option value="px_height">Px Height</option>
@@ -165,7 +161,7 @@ const LogicalCalculator:React.FC<DataProps> = ({ data }) => {
                 <span>&nbsp;</span>
                 -
                 <span>&nbsp;</span>
-                <input type='number' value={startIndex} onChange={handleStartIndexChange} />
+                <input type='number' value={startIndex} onChange={handleStartIndexChange} style={{ width: "100px" }} />
                 <span>&nbsp;</span>
                 :
                 <span>&nbsp;</span>
@@ -177,7 +173,7 @@ const LogicalCalculator:React.FC<DataProps> = ({ data }) => {
                 <span>&nbsp;</span>
                 -
                 <span>&nbsp;</span>
-                <input type='number' value={endIndex} onChange={handleEndIndexChange} />
+                <input type='number' value={endIndex} onChange={handleEndIndexChange} style={{ width: "100px" }} />
                 {
                     (operation === "RANK") &&
                     <div style={{ marginTop: '5px' }}>
@@ -187,7 +183,7 @@ const LogicalCalculator:React.FC<DataProps> = ({ data }) => {
                             <option value="px_height">Px Height</option>
                             <option value="ram">Ram</option>
                         </select>
-                        <input type='number' value={rankPointIndex} onChange={handleRankPointIndexChange} />
+                        <input type='number' value={rankPointIndex} onChange={handleRankPointIndexChange} style={{ width: "100px" }} />
                     </div>
                 }
             </label>

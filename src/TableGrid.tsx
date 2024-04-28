@@ -106,8 +106,6 @@ const TableGrid: React.FC<DataProps> = ({ data }) => {
         { headerName: 'Ram', field: 'ram', filter: true },
     ];
 
-    console.log("@@@Rowcount", rowCount);
-
     return (
         <div style={{ marginTop: '10px' }}>
             <div className="ag-theme-alpine" style={{ height: '500px', width: '100%' }}>
@@ -118,12 +116,12 @@ const TableGrid: React.FC<DataProps> = ({ data }) => {
                 />
             </div>
             <div className="search-container">
-                
                 <input
                     type="text"
                     placeholder="Search..."
                     value={searchText}
                     onChange={onSearchTextChange}
+                    style={{ width: "100px" }}
                 />
                 <span>&nbsp;</span>
                 <button onClick={applyFilter} style={{ marginTop: '10px' }}>Search</button>
@@ -141,11 +139,10 @@ const TableGrid: React.FC<DataProps> = ({ data }) => {
                 <span>&nbsp;</span>
                 -
                 <span>&nbsp;</span>
-                <input type='number' value={columnSearchValue} onChange={handleColumnSearchValueChange} />
+                <input type='number' value={columnSearchValue} onChange={handleColumnSearchValueChange} style={{ width: "100px" }} />
                 <span>&nbsp;</span>
                 <button onClick={handleColumnSearch}>Column Search</button>
             </div>
-            {/* <p>{filteredRows}</p> */}
             {
                 data.length !== 0 &&
                 <>

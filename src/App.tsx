@@ -24,26 +24,25 @@ function App() {
     setData(csvData);
   };
 
-  console.log("@@@", data);
-  // for (let i = 0; i < 10; i++) {
-  //   console.log("@@@@Samll Data", data[i].battery_power);
-  // }
   return (
-    <>
-      <h1>CSV Import in React.js</h1>
-      <CsvFileInput onFileLoad={handleFileLoad} />
-      {/* <ul>
-        {data.map((row, index) => (
-          <li key={index}>{JSON.stringify(row)}</li>
-        ))}
-      </ul> */}
-      <TableGrid data={data} />
-      {
-        (data.length !== 0) && 
-        <LogicalCalculator data={data} />
-      }
-      <VennChart data={data} />
-    </>
+    <div className="app" style={{ display: 'flex' }}>
+      <div className='left-panel'>
+        <h1>CSV Import in React.js</h1>
+        <CsvFileInput onFileLoad={handleFileLoad} />
+        <TableGrid data={data} />
+      </div>
+      <div className='right panel' style={{ display:'flex', flexDirection:'column', marginLeft: '100px' }}>
+        {
+          (data.length !== 0) && 
+          <div className='first half' style={{ flex: 1 }}>
+            <LogicalCalculator data={data}/>
+          </div>
+        }
+        <div className='second half' style={{ flex: 1 }}>
+          <VennChart data={data} />
+        </div>
+      </div>
+    </div>
   )
 }
 
