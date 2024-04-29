@@ -1,34 +1,48 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+
+import CsvFileInput from './CsvFileInput'
+import TableGrid from './TableGrid';
+import LogicalCalculator from './LogicalCalculator';
+import VennChart from './VennChart';
+
 import './App.css'
 
+export interface DataItem {
+  id: number;
+  battery_power: number;
+  px_height: number;
+  ram: number;
+}
+
+export interface DataProps {
+  data: DataItem[];
+}
+
 function App() {
-  const [count, setCount] = useState(0)
+  const [data, setData] = useState<DataItem[]>([]);
+  const handleFileLoad = (csvData: any) => {
+    setData(csvData);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="app" style={{ display: 'flex' }}>
+      <div className='left-panel'>
+        <h1>CSV Import in React.js</h1>
+        <CsvFileInput onFileLoad={handleFileLoad} />
+        <TableGrid data={data} />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+      <div className='right panel' style={{ display:'flex', flexDirection:'column', marginLeft: '100px' }}>
+        {
+          (data.length !== 0) && 
+          <div className='first half' style={{ flex: 1 }}>
+            <LogicalCalculator data={data}/>
+          </div>
+        }
+        <div className='second half' style={{ flex: 1 }}>
+          <VennChart data={data} />
+        </div>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div>
   )
 }
 
