@@ -18,16 +18,16 @@ Build a ranking system with a table, a diagram, and a logical operation calculat
 
 ## Screenshots
 - Entire App
- ![alt text](image.png)
+ ![alt text](./screenshots/image.png)
 
 - Data Table Display with search functionalities
- - ![alt text](image-1.png)
+ - ![alt text](./screenshots/image-1.png)
 
 - Logical Operator Calculator
- - ![alt text](image-2.png)
+ - ![alt text](./screenshots/image-2.png)
 
 - Venn Chart Diagram
- - ![alt text](image-3.png)
+ - ![alt text](./screenshots/image-3.png)
 
 ## Frontend
 ### Tech Stacks
@@ -36,6 +36,20 @@ Build a ranking system with a table, a diagram, and a logical operation calculat
 - Vite
 - chart.js
 - chartjs-chart-venn
+
+### Implemented Functionalities
+- Implement the importing functionality of the CSV file from the local machine.
+- Implement infinite scroll in the table, and search functionality.
+  - Ag-grid table is used.
+  - Filter for one column will contain operator dropdown(>, <, =) and input box for value.
+  - Implement the search functionality for the whole data set in the table.
+    - Use useDebounce.
+ - Show total records, records on the page, search query time, and the number of searched results.
+ - Implement logical operation calculator including MIN, MAX, RANK, SUM, AVG.
+   - If the operation is _`AVG`_, should also show the input box to be able to input the rank pointed type and index.
+- Visualize the search result for 3 columns in the format in the screenshot.
+  - Each circle indicates 1st column query result, 2nd column query result, 3rd column query result.
+  - Circle size should be dependent on the count of associated records.
 
 ## Installation
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { AgGridReact } from 'ag-grid-react';
 import { ColDef, GridReadyEvent } from 'ag-grid-community';
 import 'ag-grid-community/styles/ag-grid.css';
@@ -16,7 +16,8 @@ const TableGrid: React.FC<DataProps> = ({ data }) => {
     const [operation, setOperation] = useState<string>("bigger");
     const [columnSearchValue, setColumnSearchValue] = useState<number>(0);
     const [searchData, setSearchData] = useState<DataItem[]>(data);
-
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const gridDivRef = useRef<HTMLDivElement>(null);
 
     const debouncedSearchText = useDebounce(searchText, 500);
 
@@ -106,15 +107,39 @@ const TableGrid: React.FC<DataProps> = ({ data }) => {
         { headerName: 'Ram', field: 'ram', filter: true },
     ];
 
+    const handleScroll = () => {
+        // const gridDiv = document.querySelector('.ag-body-viewport');
+        // if (gridDiv) {
+        //     const scrollTop = gridDiv.scrollTop;
+        //     const scrollHeight = gridDiv.scrollHeight;
+        //     const clientHeight = gridDiv.clientHeight;
+
+        //     if (scrollTop + clientHeight >= scrollHeight && !isLoading) {
+        //         setIsLoading(true);
+        //         // Simulate loading delay
+        //         setTimeout(() => {
+        //             // Load more data or perform any action
+        //             setIsLoading(false);
+        //         }, 1000); // Adjust the timeout as needed
+        //     }
+        // }
+
+        if (gridDivRef.current) {
+            const scrollTop = gridDivRef.current.scrollTop;
+            const scrollHeight = gridDivRef.current.scrollHeight;
+            const clientHeight = gridDivRef.current.clientHeight;
+
+            if (scrollTop + clientHeight >= scrollHeight && !isLoading) {
+                setIsLoading(true);
+                setTimeout(() => {
+                    setIsLoading(false);
+                }, 1000);
+            }
+        }
+    };
+
     return (
-        <div style={{ marginTop: '10px' }}>
-            <div className="ag-theme-alpine" style={{ height: '500px', width: '100%' }}>
-                <AgGridReact
-                    rowData={searchData}
-                    columnDefs={columnDefs}
-                    onGridReady={onGridReady}
-                />
-            </div>
+        <div style={{ marginTop: '10px', display: 'flex', flexDirection: 'column', height: '100%' }}>
             <div className="search-container">
                 <input
                     type="text"
@@ -150,6 +175,14 @@ const TableGrid: React.FC<DataProps> = ({ data }) => {
                     <p>Search Query Time: {searchTime.toFixed(2)} milliseconds</p>
                 </>
             }
+            <div className="ag-theme-alpine" style={{ flex: 1, overflow: 'hidden' }} ref={gridDivRef} onScroll={handleScroll}>
+                <AgGridReact
+                    rowData={searchData}
+                    columnDefs={columnDefs}
+                    onGridReady={onGridReady}
+                    domLayout='autoHeight'
+                />
+            </div>
         </div>
     );
 }
