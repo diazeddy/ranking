@@ -6,13 +6,19 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 import useDebounce from "./hook/useDebounce";
 import { DataItem, DataProps } from "./App";
 
+enum ColumnType {
+    BATTERYPOWER = "battery_power",
+    PXHEIGHT = "px_height",
+    RAM = "ram",
+}
+
 const TableGrid: React.FC<DataProps> = ({ data }) => {
 
     const [gridApi, setGridApi] = useState<any>();
     const [searchText, setSearchText] = useState<string>('');
     const [rowCount, setRowCount] = useState<number>(0);
     const [searchTime, setSearchTime] = useState<number>(0);
-    const [selectedColumn, setSelectedColumn] = useState<string>("battery_power");
+    const [selectedColumn, setSelectedColumn] = useState<string>(ColumnType.BATTERYPOWER);
     const [operation, setOperation] = useState<string>("bigger");
     const [columnSearchValue, setColumnSearchValue] = useState<number>(0);
     const [searchData, setSearchData] = useState<DataItem[]>(data);
@@ -35,7 +41,7 @@ const TableGrid: React.FC<DataProps> = ({ data }) => {
 
     const handleColumnSearch = () => {
         const startTime = performance.now();
-        if (selectedColumn === "battery_power") {
+        if (selectedColumn === ColumnType.BATTERYPOWER) {
             if (operation === "bigger") {
                 setSearchData(data.filter((obj) => obj.battery_power > columnSearchValue));
             } else if (operation === "smaller") {
@@ -45,7 +51,7 @@ const TableGrid: React.FC<DataProps> = ({ data }) => {
             }
         }
     
-        if (selectedColumn === "px_height") {
+        if (selectedColumn === ColumnType.PXHEIGHT) {
             if (operation === "bigger") {
                 setSearchData(data.filter((obj) => obj.px_height > columnSearchValue));
             } else if (operation === "smaller") {
@@ -55,7 +61,7 @@ const TableGrid: React.FC<DataProps> = ({ data }) => {
             }
         }
     
-        if (selectedColumn === "ram") {
+        if (selectedColumn === ColumnType.RAM) {
             if (operation === "bigger") {
                 setSearchData(data.filter((obj) => obj.ram > columnSearchValue));
             } else if (operation === "smaller") {
@@ -102,28 +108,12 @@ const TableGrid: React.FC<DataProps> = ({ data }) => {
 
     const columnDefs: ColDef<DataItem>[] = [
         { headerName: 'ID', field: 'id', filter: true },
-        { headerName: 'Battery Power', field: 'battery_power', filter: true },
-        { headerName: 'Px Height', field: 'px_height', filter: true },
-        { headerName: 'Ram', field: 'ram', filter: true },
+        { headerName: 'Battery Power', field: ColumnType.BATTERYPOWER, filter: true },
+        { headerName: 'Px Height', field: ColumnType.PXHEIGHT, filter: true },
+        { headerName: 'Ram', field: ColumnType.RAM, filter: true },
     ];
 
     const handleScroll = () => {
-        // const gridDiv = document.querySelector('.ag-body-viewport');
-        // if (gridDiv) {
-        //     const scrollTop = gridDiv.scrollTop;
-        //     const scrollHeight = gridDiv.scrollHeight;
-        //     const clientHeight = gridDiv.clientHeight;
-
-        //     if (scrollTop + clientHeight >= scrollHeight && !isLoading) {
-        //         setIsLoading(true);
-        //         // Simulate loading delay
-        //         setTimeout(() => {
-        //             // Load more data or perform any action
-        //             setIsLoading(false);
-        //         }, 1000); // Adjust the timeout as needed
-        //     }
-        // }
-
         if (gridDivRef.current) {
             const scrollTop = gridDivRef.current.scrollTop;
             const scrollHeight = gridDivRef.current.scrollHeight;
@@ -152,9 +142,9 @@ const TableGrid: React.FC<DataProps> = ({ data }) => {
                 <button onClick={applyFilter} style={{ marginTop: '10px' }}>Search</button>
                 <span>&nbsp;&nbsp;&nbsp;</span>
                 <select value={selectedColumn} onChange={handleSelectedColumnChange}>
-                    <option value="battery_power">Battery Power</option>
-                    <option value="px_height">Px Height</option>
-                    <option value="ram">Ram</option>
+                    <option value={ColumnType.BATTERYPOWER}>Battery Power</option>
+                    <option value={ColumnType.PXHEIGHT}>Px Height</option>
+                    <option value={ColumnType.RAM}>Ram</option>
                 </select>
                 <select value={operation} onChange={handleOperationChange}>
                     <option value="bigger">{">"}</option>
@@ -180,7 +170,7 @@ const TableGrid: React.FC<DataProps> = ({ data }) => {
                     rowData={searchData}
                     columnDefs={columnDefs}
                     onGridReady={onGridReady}
-                    domLayout='autoHeight'
+                    // domLayout='autoHeight'
                 />
             </div>
         </div>

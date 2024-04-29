@@ -112,14 +112,14 @@ const VennChart: React.FC<DataProps> = ({ data }) => {
             {
                 label: "Cell Phone",
                 data: [
-                { sets: ["Battery Power"], value: Battery },
-                { sets: ["Px Height"], value: Px },
-                { sets: ["Ram"], value: Ram },
-                { sets: ["Battery Power", "Px Height"], value: Battery_Px },
-                { sets: ["Battery Power", "Ram"], value: Battery_Ram },
-                { sets: ["Px Height", "Ram"], value: Px_Ram },
+                { sets: ["Battery Power"], value: Battery - Battery_Px - Battery_Ram + Battery_Px_Ram },
+                { sets: ["Px Height"], value: Px - Battery_Px - Px_Ram + Battery_Px_Ram },
+                { sets: ["Ram"], value: Ram - Battery_Ram - Px_Ram + Battery_Px_Ram },
+                { sets: ["Battery Power", "Px Height"], value: Battery_Px - Battery_Px_Ram },
+                { sets: ["Battery Power", "Ram"], value: Battery_Ram - Battery_Px_Ram },
+                { sets: ["Px Height", "Ram"], value: Px_Ram - Battery_Px_Ram },
                 { sets: ["Battery Power", "Px Height", "Ram"], value: Battery_Px_Ram }
-                ]
+                ],
             }
             ]
         },
@@ -130,6 +130,7 @@ const VennChart: React.FC<DataProps> = ({ data }) => {
             }
         }
     };
+
 
     useEffect(() => {
         if (searchFirstData.length > 0 && searchSecondData.length > 0 && searchThirdData.length > 0) {
